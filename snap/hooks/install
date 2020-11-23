@@ -1,0 +1,13 @@
+#!/bin/sh
+
+TOKEN="$(< /dev/urandom tr -cd "A-Za-z0-9" | head -c 40)"
+sed \
+  -e "s/null/localhost/g" \
+  -e "s/changeme/$TOKEN/g" \
+  -e "s|/app/documentation|$SNAP/documentation|g" \
+  -e 's|http://pictrs:8080|http://localhost:1235|g' \
+  -e 's|http://iframely|http://localhost:8061|g' \
+  -e 's/8536/8540/g' \
+  "$SNAP"/defaults.hjson \
+  > "$SNAP_DATA"/defaults.hjson
+
